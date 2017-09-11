@@ -5,7 +5,8 @@
   "dependencies": {
     "antd": "^2.13.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.4.0",
