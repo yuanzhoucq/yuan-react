@@ -1,16 +1,46 @@
 import React, {Component} from 'react'
-import {Radio, Timeline, Icon, Tag} from 'antd'
+import {Radio, Timeline, Tag} from 'antd'
 import 'whatwg-fetch'
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+
+class ChooseLine extends Component {
+  onChangeline = (line) => {
+    this.props.onChangeLine(line)
+  }
+
+  onClick1 = () => {
+    console.log('click 1')
+    this.onChangeline('ME1')
+    document.getElementById('line1').className = "choose-line-button choose-line-active"
+    document.getElementById('line2').className = "choose-line-button"
+  }
+  onClick2 = () => {
+    console.log('click 2')
+    this.onChangeline('ME2')
+    document.getElementById('line2').className = "choose-line-button choose-line-active"
+    document.getElementById('line1').className = "choose-line-button"
+  }
+  render() {
+    return(
+      <div>
+        <button id="line1" style={{backgroundColor: '#f7fe2e'}} onClick={this.onClick1} className="choose-line-button choose-line-active">
+          <div className="choose-line-title">Ligne 1</div></button>
+        <button id="line2" style={{backgroundColor: '#ee655b'}} onClick={this.onClick2} className="choose-line-button">
+          <div className="choose-line-title">Ligne 2</div></button>
+      </div>
+    )
+  }
+}
+
 
 class OptionInput extends Component {
   state = {
     line: 'ME1'
   }
-  onChangeLine = (e) => {
-    this.props.onChangeLine(e)
-    this.setState({line: e.target.value})
+  onChangeLine = (line) => {
+    this.props.onChangeLine(line)
+    this.setState({line: line})
   }
 
   render() {
@@ -21,12 +51,13 @@ class OptionInput extends Component {
       : [<RadioButton value="ME2">C.H. Dron</RadioButton>,
         <RadioButton value="ME2_R">St. Philibert</RadioButton>]
     return(
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div className="container">
         <div style={{ marginTop: 16 }}>
-          <RadioGroup onChange={this.onChangeLine} defaultValue="ME1" size="large">
-            <RadioButton value="ME1">Ligne 1</RadioButton>
-            <RadioButton value="ME2">Ligne 2</RadioButton>
-          </RadioGroup>
+          {/*<RadioGroup onChange={this.onChangeLine} defaultValue="ME1" size="large">*/}
+            {/*<RadioButton value="ME1">Ligne 1</RadioButton>*/}
+            {/*<RadioButton value="ME2">Ligne 2</RadioButton>*/}
+          {/*</RadioGroup>*/}
+          <ChooseLine onChangeLine={this.onChangeLine}/>
         </div>
         <div style={{ marginTop: 16 }}>
           <RadioGroup onChange={this.props.onChangeDirection} defaultValue={direction} size="large">
@@ -72,9 +103,9 @@ export default class Transpole extends Component {
     waiting: true  //waiting for the completion of choice
   }
 
-  onChangeLine = (e) => {
+  onChangeLine = (line) => {
     this.setState({
-      line: e.target.value,
+      line: line,
       waiting: true
     })
   }
@@ -93,6 +124,8 @@ export default class Transpole extends Component {
     this.setState({loading: true, waiting: false}, ()=>{
       console.log('fetching data...')
       console.log(window.apiUrl+`/api/transpole/${line}/${direction}/${startStation}`)
+      // fetch('/transpole.json')
+      // offline on the train : )
       fetch(window.apiUrl+`/api/transpole/${line}/${direction}/${startStation}`)
         .then(res=>res.json())
         .then(transpoleData=>this.setState({transpoleData, loading: false}))
@@ -108,14 +141,14 @@ export default class Transpole extends Component {
   render() {
     const {transpoleData, line, direction, startStation, loading, waiting} = this.state
     return(
-      <div>
+      <div className="container">
         <OptionInput
           onChangeLine={this.onChangeLine}
           onChangeDirection={this.onChangeDirection}
           onChangeStartStation={this.onChangeStartStation}
           direction={direction}
         />
-        {waiting? '' : (loading ? '' :
+        {waiting? 'quelle direction ?' : (loading ? 'chargement...' :
           <ResultsDisplay
             transpoleData={transpoleData}
             line={line}
