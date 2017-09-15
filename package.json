@@ -2,6 +2,7 @@
   "name": "yuan-react",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "http://yuanzhou.azurewebsites.net/web",
   "dependencies": {
     "antd": "^2.13.1",
     "react": "^15.6.1",
