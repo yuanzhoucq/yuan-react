@@ -46,7 +46,7 @@ class OptionInput extends Component {
   render() {
     const {direction} = this.props
     const directionButton = (this.state.line === 'ME1') ?
-      [<RadioButton value="ME1">4 Cantons State</RadioButton>,
+      [<RadioButton value="ME1">4 Cantons Stade</RadioButton>,
       <RadioButton value="ME1_R">CHU-Eurasanté</RadioButton>]
       : [<RadioButton value="ME2">C.H. Dron</RadioButton>,
         <RadioButton value="ME2_R">St. Philibert</RadioButton>]
